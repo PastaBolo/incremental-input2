@@ -1,0 +1,5 @@
+<button (click)="decrement()">-</button>
+<input #input [value]="value" (input)="onInput($event.target)">
+<button (click)="increment()">+</button>
+
+{{ value | json }}
