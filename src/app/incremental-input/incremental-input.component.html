@@ -1,5 +1,6 @@
-<button (click)="decrement()">-</button>
-<input #input [value]="value" (input)="onInput($event.target)">
+<button (click)="decrement()" [disabled]="value <= minValue">-</button>
+<input #input [value]="value" (input)="onInput($event.target)" (blur)="onBlur()">
 <button (click)="increment()">+</button>
 
 {{ value | json }}
+{{ minValue | json }}

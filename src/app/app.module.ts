@@ -1,16 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { IncrementalInputComponent } from './incremental-input/incremental-input.component';
+import { IncrementalInputModule } from './incremental-input/incremental-input.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    IncrementalInputComponent
+    AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule,
+    IncrementalInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

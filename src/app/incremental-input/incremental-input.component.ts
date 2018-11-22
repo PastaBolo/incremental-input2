@@ -1,42 +1,57 @@
-import { OnInit, Component, Input } from '@angular/core'
-import { coerceNumberProperty } from '@angular/cdk/coercion'
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-incremental-input',
   templateUrl: './incremental-input.component.html',
   styleUrls: ['./incremental-input.component.scss']
 })
-export class IncrementalInputComponent implements OnInit {
-  private _value: number = null
+export class IncrementalInputComponent {
+  private _value: number = null;
   get value(): number {
-    return this._value
+    return this._value;
   }
   @Input()
   set value(value: number) {
-    this._value = coerceNumberProperty(value, null)
-    this.previousValue = this.value
+    this._value = coerceNumberProperty(value, null);
+    this.previousValue = this.value;
   }
 
-  private previousValue: number = null
-  // private previousValue: number
-
-  ngOnInit(): void {
-    // this.previousValue = this.value
+  private _minValue = 0;
+  get minValue(): number {
+    return this._minValue;
   }
+  @Input()
+  set minValue(minValue: number) {
+    this._minValue = coerceNumberProperty(minValue, 0);
+  }
+
+  @Output() valueChange = new EventEmitter<number>();
+  @Output() touch = new EventEmitter<void>();
+
+  private previousValue: number = null;
 
   decrement(): void {
-    this.previousValue = --this.value
+    this.valueChange.emit(--this.value);
+    this.touch.emit();
   }
 
   increment(): void {
-    this.previousValue = ++this.value
+    this.valueChange.emit(++this.value);
+    this.touch.emit();
   }
 
   onInput(input: HTMLInputElement): void {
     if (/\D/.test(input.value)) {
-      input.value = coerceNumberProperty(this.previousValue, '').toString()
+      input.value = coerceNumberProperty(this.previousValue, '').toString();
+      this.touch.emit();
     } else {
-      this.previousValue = this.value = coerceNumberProperty(input.value, null)
+      this.valueChange.emit(this.value = coerceNumberProperty(input.value, null));
+      this.touch.emit();
     }
+  }
+
+  onBlur(): void {
+    this.touch.emit();
   }
 }

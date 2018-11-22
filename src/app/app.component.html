@@ -1,1 +1,3 @@
-<app-incremental-input></app-incremental-input>
+<app-incremental-input [formControl]="control" minValue></app-incremental-input>
+<br>
+{{ control.value | json }}
